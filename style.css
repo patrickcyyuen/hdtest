@@ -1,0 +1,13 @@
+body {
+  background-color: rgb(255,255,255);
+}
+
+h5 {
+  color: rgb(40,170,220);
+}
+
+#container {
+  padding: 2em;
+  border: solid 1px #888888;
+  width: 300px;
+}

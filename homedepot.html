@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+   <HEAD>
+      <TITLE>My first HOMEDEPOT APP</TITLE>
+      <link rel = "stylesheet" type = "text/css" href = "style.css"/>
+   </HEAD>
+   <BODY>
+	<form>
+		<div id="container">
+		<h3>Currency converter</h3>
+		<p>Type in amoutn and select currency:</br>
+		<input name="amount1" id="amount1" type="text" onchange="xerate(this)"> <select name="cur1" id="cur1" onchange="xerate(this)"><option selected>CAD</option><option>EUR</option><option>USD</option></select><br /><br />
+		<input name="amount2" id="amount2" type="text" onchange="xerate(this)"> <select name="cur2" id="cur2" onchange="xerate(this)"><option>CAD</option><option>EUR</option><option selected>USD</option></select>
+		
+		</div>
+	</form>
+   <BODY>
+<script>
+function xerate(field){
+var cur1=document.getElementById('cur1').value;
+var cur2=document.getElementById('cur2').value;
+var amount1= document.getElementById('amount1').value;
+var amount2= document.getElementById('amount2').value;
+
+var the_url="http://api.fixer.io/latest?symbols="+cur1+","+cur2;
+var resultObj;
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open("GET", the_url, true);
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    httpRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    httpRequest.setRequestHeader("X-Alt-Referer", "http://www.google.com");
+    httpRequest.send();
+    httpRequest.onreadystatechange = function() { 
+        if (httpRequest.readyState == 4)
+        {
+            var _tempRecommendations = httpRequest.responseXML;
+            resultObj = httpRequest.responseText;
+	    var obj = JSON.parse(resultObj);
+        }
+	else {
+		alert("API Connection Fail, please try again later.");
+		return;
+	}
+	var base_curr=obj.base;
+	else{
+		if (base_curr == cur1){
+			if (field.name == "cur1" || field.name == "amount1")		
+				document.getElementById('amount2').value=amount1*obj.rates[cur2];
+			else 
+				document.getElementById('amount1').value=amount2/obj.rates[cur2];
+		}
+		else if (base_curr == cur2)
+		{
+			if (field.name == "cur2" || field.name == "amount2")
+				document.getElementById('amount1').value=amount2*obj.rates[cur1];
+			else
+				document.getElementById('amount2').value=amount1/obj.rates[cur1];	
+		}
+		else
+		{	
+			var rate1 = obj.rates[cur1];
+			var rate2 = obj.rates[cur2];
+			if (field.name == "cur1" || field.name == "amount1")		
+				document.getElementById('amount2').value=amount1*(obj.rates[cur2]/obj.rates[cur1]);
+			else 
+				document.getElementById('amount1').value=amount2*(obj.rates[cur1]/obj.rates[cur2]);
+		
+		}
+	}
+    }; 
+
+
+}
+</script>
+</HTML>

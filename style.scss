@@ -1,0 +1,17 @@
+$pad : 2em;
+$color-primary : rgb(255,255,255);
+$color-secondary : rgb(40,170,220);
+
+body {
+  background-color: $color-primary;
+}
+
+h5 {
+  color: $color-secondary;
+}
+
+#container {
+  padding: $pad;
+  border: solid 1px #888888;
+  width: 300px;
+}
